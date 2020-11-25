@@ -5,11 +5,9 @@ library(shinythemes)
 
 ui = fluidPage(theme = shinytheme("cerulean"),
      navbarPage("Calculs Investissements Locatifs",
-     tabPanel("Rendement Brut",
-     sidebarLayout(
   
-  # App title
-  headerPanel("Calculs Investissements Locatifs"),
+ tabPanel("Rendement Brut",
+     sidebarLayout(
   
   # Sidebar panel for inputs
   sidebarPanel(
@@ -37,16 +35,16 @@ tabPanel("Rendement net de frais et charges",
       h2("Calcul du rendement net de frais et charges"),
       br(),
       numericInput(inputId = "La2",
-                   label = "Loyer annuel",
+                   label = "Loyer annuel :",
                    value = 0),
       numericInput(inputId = "P2",
-                   label = "Prix du bien",
+                   label = "Prix du bien :",
                    value = 0),
       numericInput(inputId = "FC2",
-                   label = "Frais et Charges (annuelles)",
+                   label = "Frais et Charges (annuelles) :",
                    value = 0),
       numericInput(inputId = "Cc2",
-                   label = "Coût du crédit",
+                   label = "Coût du crédit :",
                    value = 0)
     ),
     mainPanel(h3(textOutput("RendementNetFraisCharges")))
@@ -59,7 +57,7 @@ tabPanel("Rendement net de frais et charges",
 
 # Define server logic to plot various variables
 
-server <- function(input, output, session) {
+server <- function(input, output) {
     output$RendementBrut <- renderText({
     results <- (input$La/input$P*100)
     results <- format(round(results, 2), nsmall = 2)
@@ -67,9 +65,9 @@ server <- function(input, output, session) {
   })
 
     output$RendementNetFraisCharges <- renderText({
-    results <- (input$La2-input$FC2)/(input$P2+input$Cc2)* 100
-    results <- format(round(results, 2), nsmall = 2)
-    paste("Le rendement net de frais et de charges s'élève à ", results, "%")
+    results2 <- ((input$La2-input$FC2)/(input$P2+input$Cc2)* 100)
+    results2 <- format(round(results2, 2), nsmall = 2)
+    paste("Le rendement net de frais et de charges s'élève à ", results2, "%")
   })
 }
 
@@ -77,6 +75,4 @@ server <- function(input, output, session) {
 # Create Shiny App with ui and server
 
 shinyApp(ui, server)
-
-runApp("CalculsInvestissementsLocatifs")
 
