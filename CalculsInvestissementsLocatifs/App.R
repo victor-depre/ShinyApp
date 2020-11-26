@@ -49,7 +49,36 @@ tabPanel("Rendement net de frais et charges",
     ),
     mainPanel(h3(textOutput("RendementNetFraisCharges")))
 
-))
+)),
+
+
+tabPanel("Rendement net-net",
+         sidebarLayout(
+           sidebarPanel(
+             h2("Calcul du rendement net de frais de charges et d'impôts"),
+             br(),
+             numericInput(inputId = "La3",
+                          label = "Loyer annuel :",
+                          value = 0),
+             numericInput(inputId = "P3",
+                          label = "Prix du bien :",
+                          value = 0),
+             numericInput(inputId = "FC3",
+                          label = "Frais et Charges (annuelles) :",
+                          value = 0),
+             numericInput(inputId = "Cc3",
+                          label = "Coût du crédit :",
+                          value = 0),
+             numericInput(inputId = "Imp3",
+                          label = "Impôts liés au logement :",
+                          value = 0)
+           ),
+           mainPanel(h3(textOutput("RendementNetNet")))
+           
+         ))
+
+
+
 ))
 
 # The three functions headerPanel, sidebarPanel, and mainPanel define the various regions of the user-interface. The application will be called “Calculs Investissements Locatifs” so we specify that as the title when we create the header panel. The other panels are empty for now.
@@ -68,6 +97,12 @@ server <- function(input, output) {
     results2 <- ((input$La2-input$FC2)/(input$P2+input$Cc2)* 100)
     results2 <- format(round(results2, 2), nsmall = 2)
     paste("Le rendement net de frais et de charges s'élève à ", results2, "%")
+  })
+    
+    output$RendementNetNet <- renderText({
+      results3 <- ((input$La3-input$FC3-input$Imp3)/(input$P3+input$Cc3)* 100)
+      results3 <- format(round(results3, 2), nsmall = 2)
+      paste("Le rendement net de frais, de charges et d'impôts s'élève à ", results3, "%")
   })
 }
 
