@@ -4,7 +4,7 @@ library(shinythemes)
 # Define UI 
 
 ui = fluidPage(theme = shinytheme("cerulean"),
-     navbarPage("Calculs Investissements Locatifs",
+     navbarPage("Simulateur Investissement Locatif",
   
  tabPanel("Rendement Brut",
      sidebarLayout(
@@ -75,6 +75,48 @@ tabPanel("Rendement net-net",
            ),
            mainPanel(h3(textOutput("RendementNetNet")))
            
+         )),
+
+
+tabPanel("Capacité d'emprunt",
+         sidebarLayout(
+           sidebarPanel(
+             h2("Calcul de la capacité d'emprut"),
+             br(),
+             numericInput(inputId = "Sa4",
+                          label = "Salaire mensuel :",
+                          value = 0),
+             numericInput(inputId = "SaCo4",
+                          label = "Salaire co-emprunteur :",
+                          value = 0),
+             numericInput(inputId = "Rf4",
+                          label = "Revenus fonciers mensuels :",
+                          value = 0),
+             numericInput(inputId = "AR4",
+                          label = "Autres revenus mensuels :",
+                          value = 0),
+             numericInput(inputId = "L4",
+                          label = "Loyer à charge après acquisition :",
+                          value = 0),
+             numericInput(inputId = "Men4",
+                          label = "Mensualités de potentiels crédits en cours :",
+                          value = 0),
+             numericInput(inputId = "AC4",
+                          label = "Autres charges mensuelles :",
+                          value = 0)
+           ),
+           mainPanel(h3(textOutput("CapaciteEmprunt"),
+                        br(),
+                        h3(textOutput("CapaciteEmprunt10"),
+                        br(),
+                        h3(textOutput("CapaciteEmprunt15"),
+                        br(),
+                        h3(textOutput("CapaciteEmprunt20"),
+                        br(),
+                        h3(textOutput("CapaciteEmprunt25"),
+                        br(),
+                        h3(textOutput("CapaciteEmprunt30"))))))))
+           
          ))
 
 
@@ -104,10 +146,45 @@ server <- function(input, output) {
       results3 <- format(round(results3, 2), nsmall = 2)
       paste("Le rendement net de frais, de charges et d'impôts s'élève à ", results3, "%")
   })
+    
+    output$CapaciteEmprunt <- renderText({
+      results4 <- ((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100
+      results4 <- format(round(results4, 2), nsmall = 2)
+      paste("Votre capacité de remboursement de crédit est estimée à", results4, "€ par mois")
+  })
+    
+    output$CapaciteEmprunt10 <- renderText({
+      results42 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*120
+      results42 <- format(round(results42, 2), nsmall = 2)
+      paste("Votre capacité d'emprunt sur 10 ans est estimée à", results42, "€")
+  })
+    
+    output$CapaciteEmprunt15 <- renderText({
+      results43 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*180
+      results43 <- format(round(results43, 2), nsmall = 2)
+      paste("Votre capacité d'emprunt sur 15 ans est estimée à", results43, "€")
+  })
+   
+    output$CapaciteEmprunt20 <- renderText({
+      results44 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*240
+      results44 <- format(round(results44, 2), nsmall = 2)
+      paste("Votre capacité d'emprunt sur 20 ans est estimée à", results44, "€")
+  }) 
+    
+    output$CapaciteEmprunt25 <- renderText({
+      results45 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*300
+      results45 <- format(round(results45, 2), nsmall = 2)
+      paste("Votre capacité d'emprunt sur 25 ans est estimée à", results45, "€")
+  })
+    
+    output$CapaciteEmprunt30 <- renderText({
+      results46 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*360
+      results46 <- format(round(results46, 2), nsmall = 2)
+      paste("Votre capacité d'emprunt sur 30 ans est estimée à", results46, "€")
+  })
 }
 
 
 # Create Shiny App with ui and server
 
 shinyApp(ui, server)
-
