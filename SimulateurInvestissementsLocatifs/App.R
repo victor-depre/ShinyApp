@@ -20,7 +20,8 @@ ui = fluidPage(theme = shinytheme("cerulean"),
                  value = 0),
     numericInput(inputId = "P",
                  label = "Prix du bien :",
-                 value = 0)
+                 value = 0),
+    actionButton("BTN","Calculer")
     ),
   
   # Main panel for displaying outputs
@@ -45,7 +46,8 @@ tabPanel("Rendement net de frais et charges",
                    value = 0),
       numericInput(inputId = "Cc2",
                    label = "Coût du crédit :",
-                   value = 0)
+                   value = 0),
+      actionButton("BTN2","Calculer")
     ),
     mainPanel(h3(textOutput("RendementNetFraisCharges")))
 
@@ -71,7 +73,8 @@ tabPanel("Rendement net-net",
                           value = 0),
              numericInput(inputId = "Imp3",
                           label = "Impôts liés au logement :",
-                          value = 0)
+                          value = 0),
+             actionButton("BTN3","Calculer")
            ),
            mainPanel(h3(textOutput("RendementNetNet")))
            
@@ -129,22 +132,28 @@ tabPanel("Capacité d'emprunt",
 # Define server logic to plot various variables
 
 server <- function(input, output) {
+    
+    results <- eventReactive(input$BTN, {
+      format(round((input$La/input$P*100), 2), nsmall = 2)
+    })
     output$RendementBrut <- renderText({
-    results <- (input$La/input$P*100)
-    results <- format(round(results, 2), nsmall = 2)
-    paste("Le rendement brut s'élève à ", results, "%")
-  })
-
-    output$RendementNetFraisCharges <- renderText({
-    results2 <- ((input$La2-input$FC2)/(input$P2+input$Cc2)* 100)
-    results2 <- format(round(results2, 2), nsmall = 2)
-    paste("Le rendement net de frais et de charges s'élève à ", results2, "%")
+    paste("Le rendement brut s'élève à ", results(), "%")
   })
     
-    output$RendementNetNet <- renderText({
-      results3 <- ((input$La3-input$FC3-input$Imp3)/(input$P3+input$Cc3)* 100)
-      results3 <- format(round(results3, 2), nsmall = 2)
-      paste("Le rendement net de frais, de charges et d'impôts s'élève à ", results3, "%")
+    results2 <- eventReactive(input$BTN2, {
+      format(round(((input$La2-input$FC2)/(input$P2+input$Cc2)* 100), 2), nsmall = 2)
+    })
+    output$RendementNetFraisCharges <- renderText({
+    paste("Le rendement net de frais et de charges s'élève à ", results2(), "%")
+  })
+    
+    results3 <- eventReactive(input$BTN3, {
+      format(round(((input$La3-input$FC3-input$Imp3)/(input$P3+input$Cc3)* 100), 2), nsmall = 2)
+    })
+      output$RendementNetNet <- renderText({
+      #results3 <- ((input$La3-input$FC3-input$Imp3)/(input$P3+input$Cc3)* 100)
+      #results3 <- format(round(results3, 2), nsmall = 2)
+      paste("Le rendement net de frais, de charges et d'impôts s'élève à ", results3(), "%")
   })
     
     output$CapaciteEmprunt <- renderText({
@@ -188,3 +197,4 @@ server <- function(input, output) {
 # Create Shiny App with ui and server
 
 shinyApp(ui, server)
+
