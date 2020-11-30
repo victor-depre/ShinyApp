@@ -3,7 +3,7 @@ library(shinythemes)
 
 # Define UI 
 
-ui = fluidPage(theme = shinytheme("cerulean"),
+ui = fluidPage(theme = shinytheme("united"),
      navbarPage("Simulateur Investissement Locatif",
   
  tabPanel("Rendement Brut",
@@ -21,7 +21,7 @@ ui = fluidPage(theme = shinytheme("cerulean"),
     numericInput(inputId = "P",
                  label = "Prix du bien :",
                  value = 0),
-    actionButton("BTN","Calculer")
+    actionButton("BTN","Calculer",icon("calculator"),style="color: #fff; background-color: #FC6021; border-color: #FC6021")
     ),
   
   # Main panel for displaying outputs
@@ -47,7 +47,7 @@ tabPanel("Rendement net de frais et charges",
       numericInput(inputId = "Cc2",
                    label = "Coût du crédit :",
                    value = 0),
-      actionButton("BTN2","Calculer")
+      actionButton("BTN2","Calculer",icon("calculator"),style="color: #fff; background-color: #FC6021; border-color: #FC6021")
     ),
     mainPanel(h3(textOutput("RendementNetFraisCharges")))
 
@@ -74,7 +74,7 @@ tabPanel("Rendement net-net",
              numericInput(inputId = "Imp3",
                           label = "Impôts liés au logement :",
                           value = 0),
-             actionButton("BTN3","Calculer")
+             actionButton("BTN3","Calculer",icon("calculator"),style="color: #fff; background-color: #FC6021; border-color: #FC6021")
            ),
            mainPanel(h3(textOutput("RendementNetNet")))
            
@@ -107,7 +107,7 @@ tabPanel("Capacité d'emprunt",
              numericInput(inputId = "AC4",
                           label = "Autres charges mensuelles :",
                           value = 0),
-             actionButton("BTN4","Calculer")
+             actionButton("BTN4","Calculer",icon("calculator"),style="color: #fff; background-color: #FC6021; border-color: #FC6021")
            ),
            mainPanel(h3(textOutput("CapaciteEmprunt"),
                         br(),
@@ -133,10 +133,10 @@ tabPanel("Simulation frais de notaire",
              numericInput(inputId = "P2",
                           label = "Prix du bien :",
                           value = 0),
-             actionButton("BTN5","Calculer")
+             actionButton("BTN5","Calculer",icon("calculator"),style="color: #fff; background-color: #FC6021; border-color: #FC6021")
              
            ),
-           mainPanel(h3(textOutput("RendementNetFraisCharges")))
+           mainPanel(h3(textOutput("EstimationNotaire")))
            
          ))
 
@@ -212,8 +212,14 @@ server <- function(input, output) {
       paste("Votre capacité d'emprunt sur 30 ans est estimée à", results46(), "€")
   })
         
-      #output$type <- renderText({
-          #if output$type = "Nf" paste("You chose", input$state)
+      output$EstimationNotaire <- renderText({
+          if(input$type = "Nf") { 
+            paste("bla")
+          }
+        else if(input$type ="An") {
+          paste("blou")
+        }
+    })
 }
 
 
