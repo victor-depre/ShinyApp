@@ -121,36 +121,24 @@ tabPanel("Capacité d'emprunt",
                         br(),
                         h3(textOutput("CapaciteEmprunt30"))))))))
            
-         ))
+         )),
 
-
-tabPanel("Simulation frais de notaires",
+tabPanel("Simulation frais de notaire",
          sidebarLayout(
            sidebarPanel(
-             h2("Simulation de vos frais de notaire"),
+             h2("Estimation de vos frais de notaire"),
              br(),
-             numericInput(inputId = "P5",
-                          label = "Prix d'achat du bien :",
-                          value = 0),
-             numericInput(inputId = "P3",
+             selectInput("type", "Type du bien", choices = c("Neuf" = "Nf","Ancien" = "An")),
+             br(),
+             numericInput(inputId = "P2",
                           label = "Prix du bien :",
                           value = 0),
-             numericInput(inputId = "FC3",
-                          label = "Frais et Charges (annuelles) :",
-                          value = 0),
-             numericInput(inputId = "Cc3",
-                          label = "Coût du crédit :",
-                          value = 0),
-             numericInput(inputId = "Imp3",
-                          label = "Impôts liés au logement :",
-                          value = 0),
-             actionButton("BTN3","Calculer")
+             actionButton("BTN5","Calculer")
+             
            ),
-           mainPanel(h3(textOutput("RendementNetNet")))
+           mainPanel(h3(textOutput("RendementNetFraisCharges")))
            
          ))
-
-
 
 ))
 
@@ -186,8 +174,6 @@ server <- function(input, output) {
         format(round(((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100, 0), nsmall = 0)
       })
       output$CapaciteEmprunt <- renderText({
-      #results4 <- ((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100
-      #results4 <- format(round(results4, 2), nsmall = 2)
       paste("Votre capacité de remboursement de crédit est estimée à", results4(), "€ par mois")
   })
       
@@ -195,8 +181,6 @@ server <- function(input, output) {
         format(round((((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*120, 0), nsmall = 0)
       })
         output$CapaciteEmprunt10 <- renderText({
-      #results42 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*120
-      #results42 <- format(round(results42, 2), nsmall = 2)
       paste("Votre capacité d'emprunt sur 10 ans est estimée à", results42(), "€")
   })
       
@@ -204,8 +188,6 @@ server <- function(input, output) {
         format(round((((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*180, 0), nsmall = 0)
       })
       output$CapaciteEmprunt15 <- renderText({
-      #results43 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*180
-      #results43 <- format(round(results43, 2), nsmall = 2)
       paste("Votre capacité d'emprunt sur 15 ans est estimée à", results43(), "€")
   })
    
@@ -213,8 +195,6 @@ server <- function(input, output) {
         format(round((((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*240, 0), nsmall = 0)
       })
       output$CapaciteEmprunt20 <- renderText({
-      #results44 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*240
-      #results44 <- format(round(results44, 2), nsmall = 2)
       paste("Votre capacité d'emprunt sur 20 ans est estimée à", results44(), "€")
   }) 
     
@@ -222,8 +202,6 @@ server <- function(input, output) {
         format(round((((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*300, 0), nsmall = 0)
       })
         output$CapaciteEmprunt25 <- renderText({
-      #results45 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*300
-      #results45 <- format(round(results45, 2), nsmall = 2)
       paste("Votre capacité d'emprunt sur 25 ans est estimée à", results45(), "€")
   })
     
@@ -231,10 +209,11 @@ server <- function(input, output) {
         format(round((((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*360, 0), nsmall = 0)
       })
         output$CapaciteEmprunt30 <- renderText({
-      #results46 <- (((input$Sa4+input$SaCo4+input$Rf4+input$AR4)-(input$L4-input$Men4-input$AC4))*33/100)*360
-      #results46 <- format(round(results46, 2), nsmall = 2)
       paste("Votre capacité d'emprunt sur 30 ans est estimée à", results46(), "€")
   })
+        
+      #output$type <- renderText({
+          #if output$type = "Nf" paste("You chose", input$state)
 }
 
 
