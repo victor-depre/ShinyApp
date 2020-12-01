@@ -130,7 +130,7 @@ tabPanel("Simulation frais de notaire",
              br(),
              selectInput("type", "Type du bien", choices = c("Neuf" = "Nf","Ancien" = "An")),
              br(),
-             numericInput(inputId = "P2",
+             numericInput(inputId = "P5",
                           label = "Prix du bien :",
                           value = 0),
              actionButton("BTN5","Calculer",icon("calculator"),style="color: #fff; background-color: #FC6021; border-color: #FC6021")
@@ -212,14 +212,43 @@ server <- function(input, output) {
       paste("Votre capacité d'emprunt sur 30 ans est estimée à", results46(), "€")
   })
         
-      output$EstimationNotaire <- renderText({
-          if(input$type = "Nf") { 
-            paste("bla")
-          }
-        else if(input$type ="An") {
-          paste("blou")
-        }
-    })
+      #if(input$P5 > 60000 && input$type == "Nf") {res <- "Neuf et > 60 000"}
+      #else if(input$P5 > 60000 && input$type == "An") {res <- "Ancien et > 60 000"}
+      #else if(input$P5 <= 60000 && input$P5 > 17000 && input$type == "Nf") {res <- "Neuf et entre 17 000 et 60 000"}
+      #else if(input$P5 <= 60000 && input$P5 > 17000 && input$type == "An") {res <- "Ancien et entre 17 000 et 60 000"}
+      #else if(input$P5 <= 17000 && input$P5 > 6500 && input$type == "Nf") {res <- "Neuf et entre 6 500 et 17 000"}
+      #else if(input$P5 <= 17000 && input$P5 > 6500 && input$type == "An") {res <- "Ancien et entre 6 500 et 17 000"}
+      #else if(input$P5 <= 6500 && input$type == "Nf") {res <- "Neuf et < 6 500"}
+      #else if(input$P5 <= 6500 && input$type == "An") {res <- "Ancien et < 6 500"}
+      
+      results5 <- eventReactive(input$BTN5, {
+        
+        if(input$P5 > 60000 && input$type == "Nf") {res <- "Neuf et > 60 000"}
+        else if(input$P5 > 60000 && input$type == "An") {res <- "Ancien et > 60 000"}
+        else if(input$P5 <= 60000 && input$P5 > 17000 && input$type == "Nf") {res <- "Neuf et entre 17 000 et 60 000"}
+        else if(input$P5 <= 60000 && input$P5 > 17000 && input$type == "An") {res <- "Ancien et entre 17 000 et 60 000"}
+        else if(input$P5 <= 17000 && input$P5 > 6500 && input$type == "Nf") {res <- "Neuf et entre 6 500 et 17 000"}
+        else if(input$P5 <= 17000 && input$P5 > 6500 && input$type == "An") {res <- "Ancien et entre 6 500 et 17 000"}
+        else if(input$P5 <= 6500 && input$type == "Nf") {res <- "Neuf et < 6 500"}
+        else if(input$P5 <= 6500 && input$type == "An") {res <- "Ancien et < 6 500"}
+        
+        paste(format(round(res)))})
+        
+        output$EstimationNotaire <- renderText({
+          paste(results5)
+        })
+          
+        
+      #output$EstimationNotaire <- renderText({
+        #if(input$P5 > 60000 && input$type == "Nf") {paste("Neuf et > 60 000")}
+        #else if(input$P5 > 60000 && input$type == "An") {paste("Ancien et > 60 000")}
+        #else if(input$P5 <= 60000 && input$P5 > 17000 && input$type == "Nf") {paste("Neuf et entre 17 000 et 60 000")}
+        #else if(input$P5 <= 60000 && input$P5 > 17000 && input$type == "An") {paste("Ancien et entre 17 000 et 60 000")}
+        #else if(input$P5 <= 17000 && input$P5 > 6500 && input$type == "Nf") {paste("Neuf et entre 6 500 et 17 000")}
+        #else if(input$P5 <= 17000 && input$P5 > 6500 && input$type == "An") {paste("Ancien et entre 6 500 et 17 000")}
+        #else if(input$P5 <= 6500 && input$type == "Nf") {paste("Neuf et < 6 500")}
+        #else if(input$P5 <= 6500 && input$type == "An") {paste("Ancien et < 6 500")}
+#})
 }
 
 
